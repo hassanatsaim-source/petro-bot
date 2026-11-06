@@ -2,47 +2,171 @@
 <html>
 
 <head>
-    <title>PETRO-BOT</title>
+    <title>PETRO-BOT - Human Robot</title>
     <style>
         body {
             font-family: Arial;
             text-align: center;
             background: #0f172a;
-            color: white
+            color: white;
+            margin: 0;
+            padding: 10px
         }
 
         #stage {
-            height: 300px;
+            height: 380px;
             position: relative;
             overflow: hidden;
             background: #1e293b;
             border-radius: 20px;
-            margin: 20px
+            margin: 15px
         }
 
         #robot {
-            font-size: 120px;
             position: absolute;
             left: 45%;
-            top: 80px;
+            top: 40px;
+            width: 120px;
             transition: all 0.5s
         }
 
+        /* HEAD */
+        .head {
+            width: 90px;
+            height: 70px;
+            background: linear-gradient(#fff, #c7d2fe);
+            border-radius: 20px;
+            margin: 0 auto;
+            position: relative;
+            border: 3px solid #333
+        }
+
+        .eye {
+            width: 14px;
+            height: 22px;
+            background: #0ea5e9;
+            border-radius: 50%;
+            position: absolute;
+            top: 22px
+        }
+
+        .eye.left {
+            left: 20px
+        }
+
+        .eye.right {
+            right: 20px
+        }
+
+        .mouth {
+            width: 30px;
+            height: 10px;
+            background: #111;
+            border-radius: 10px;
+            position: absolute;
+            bottom: 12px;
+            left: 30px
+        }
+
+        .antenna {
+            width: 6px;
+            height: 25px;
+            background: #f43f5e;
+            position: absolute;
+            top: -25px
+        }
+
+        .antenna.left {
+            left: 15px
+        }
+
+        .antenna.right {
+            right: 15px
+        }
+
+        /* BODY */
+        .body {
+            width: 80px;
+            height: 90px;
+            background: linear-gradient(#22c55e, #15803d);
+            border-radius: 15px;
+            margin: 5px auto;
+            position: relative;
+            border: 3px solid #111
+        }
+
+        .body:before {
+            content: "❤";
+            position: absolute;
+            top: 30px;
+            left: 28px;
+            font-size: 22px
+        }
+
+        /* ARMS */
+        .arm {
+            width: 20px;
+            height: 80px;
+            background: #94a3b8;
+            border: 3px solid #111;
+            position: absolute;
+            top: 85px;
+            border-radius: 10px
+        }
+
+        .arm.left {
+            left: 0
+        }
+
+        .arm.right {
+            right: 0
+        }
+
+        /* LEGS */
+        .leg {
+            width: 22px;
+            height: 80px;
+            background: #3b82f6;
+            border: 3px solid #111;
+            position: absolute;
+            top: 180px;
+            border-radius: 10px
+        }
+
+        .leg.left {
+            left: 25px
+        }
+
+        .leg.right {
+            right: 65px
+        }
+
+        .foot {
+            width: 30px;
+            height: 12px;
+            background: #111;
+            position: absolute;
+            bottom: -5px;
+            left: -5px;
+            border-radius: 5px
+        }
+
+        /* ANIMATIONS */
         .dance {
             animation: dance 0.5s infinite
         }
 
         @keyframes dance {
             0% {
-                transform: rotate(-20deg)
+                transform: rotate(-15deg)
             }
 
             50% {
-                transform: rotate(20deg) translateY(-20px)
+                transform: rotate(15deg) translateY(-15px)
             }
 
             100% {
-                transform: rotate(-20deg)
+                transform: rotate(-15deg)
             }
         }
 
@@ -52,15 +176,15 @@
 
         @keyframes jump {
             0% {
-                top: 80px
+                top: 40px
             }
 
             50% {
-                top: 0px
+                top: -10px
             }
 
             100% {
-                top: 80px
+                top: 40px
             }
         }
 
@@ -82,47 +206,96 @@
             }
         }
 
+        .wave .arm.right {
+            animation: wave 0.5s infinite
+        }
+
+        @keyframes wave {
+            0% {
+                transform: rotate(0)
+            }
+
+            50% {
+                transform: rotate(-40deg)
+            }
+
+            100% {
+                transform: rotate(0)
+            }
+        }
+
+        .spin {
+            animation: spin 1s
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
         input {
             padding: 12px;
-            width: 70%;
+            width: 60%;
             border-radius: 10px;
             border: none
         }
 
         button {
-            padding: 12px 20px;
+            padding: 12px 15px;
             border-radius: 10px;
             background: #22c55e;
             border: none;
             font-weight: bold;
-            cursor: pointer
+            cursor: pointer;
+            margin: 3px
         }
 
         #chat {
             background: white;
             color: black;
-            width: 80%;
+            width: 85%;
             margin: 10px auto;
             padding: 15px;
             border-radius: 15px;
             text-align: left;
-            height: 150px;
+            height: 130px;
             overflow-y: auto
         }
     </style>
 </head>
 
 <body>
-    <h1>🤖 PETRO-BOT - Live Robot</h1>
-    <p>Try: dance, jump, run, play music, introduce yourself</p>
+    <h1>🤖 PETRO-BOT - Human Robot</h1>
+    <p>Try: dance, jump, run, wave, spin, play music, introduce yourself</p>
 
     <div id="stage">
-        <div id="robot">🤖</div>
+        <div id="robot">
+            <div class="antenna left"></div>
+            <div class="antenna right"></div>
+            <div class="head">
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="mouth"></div>
+            </div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="body"></div>
+            <div class="leg left">
+                <div class="foot"></div>
+            </div>
+            <div class="leg right">
+                <div class="foot"></div>
+            </div>
+        </div>
     </div>
 
-    <div id="chat">Hello! I am PETRO-BOT. Type a command below.</div>
-    <br>
-    <input id="cmd" placeholder="Type: dance / jump / run / introduce yourself">
+    <div id="chat">Hello! I am PETRO-BOT. I now have legs and arms!</div><br>
+    <input id="cmd" placeholder="Type: dance / jump / run / wave / spin">
     <button onclick="talk()">SEND</button>
     <button onclick="listen()">🎤 SPEAK</button>
 
@@ -131,45 +304,26 @@
         let chatBox = document.getElementById('chat');
         let myName = localStorage.getItem('userName') || 'my friend';
         let music = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-
-        function say(text) {
-            chatBox.innerHTML += '<br><b>Robot:</b> ' + text;
-            let speech = new SpeechSynthesisUtterance(text);
-            speechSynthesis.speak(speech);
-        }
-
+        function say(t) { chatBox.innerHTML += '<br><b>Robot:</b> ' + t; speechSynthesis.speak(new SpeechSynthesisUtterance(t)); }
         function talk() {
             let input = document.getElementById('cmd').value.toLowerCase();
             document.getElementById('cmd').value = '';
             chatBox.innerHTML += '<br><b>You:</b> ' + input;
             robot.className = '';
-
-            if (input.includes('dance')) { robot.classList.add('dance'); say('Yes! Let me dance for you!'); }
-            else if (input.includes('jump')) { robot.classList.add('jump'); say('Jumping!'); }
-            else if (input.includes('run')) { robot.classList.add('run'); say('I am running!'); }
+            if (input.includes('dance')) { robot.classList.add('dance'); say('Yes! Watch me dance!'); }
+            else if (input.includes('jump')) { robot.classList.add('jump'); say('Jumping with my legs!'); }
+            else if (input.includes('run')) { robot.classList.add('run'); say('I am running with my legs!'); }
+            else if (input.includes('wave')) { robot.classList.add('wave'); say('Hello! I am waving at you!'); }
+            else if (input.includes('spin')) { robot.classList.add('spin'); say('Spinning around!'); }
             else if (input.includes('stop music')) { music.pause(); say('Music stopped.'); }
-            else if (input.includes('play music') || input.includes('music')) { music.play(); say('Playing music for you!'); }
+            else if (input.includes('music')) { music.play(); say('Playing music!'); }
             else if (input.includes('stop')) { robot.className = ''; say('Okay I stopped.'); }
-            else if (input.includes('introduce')) {
-                say('Hello! My name is PETRO-BOT. I was created by Hassanat saim. I am a live robot made with JavaScript. I can dance, jump, run, play music, and remember your details. I was built for the PETRO-STOCK project to help oil companies in South Sudan track production and stock. Nice to meet you!');
-            }
-            else if (input.includes('my name is')) {
-                petro_bot = input.replace('my name is', '').trim();
-                localStorage.setItem('userName', petro_bot);
-                say('Nice to meet you ' + myName + '! I will remember you forever.');
-            }
-            else if (input.includes('who am i')) { say('You are ' + myName + ', my creator and my best friend.'); }
-            else { say('I can dance, jump, run, play music, or introduce myself. Try one!'); }
+            else if (input.includes('introduce')) { say('Hello! My name is PETRO-BOT. I was created by ' + myName + '. I am a human-like robot made with JavaScript. I have a head, arms, legs and I can dance, jump, run, wave and play music. I was built for PETRO-STOCK to help oil companies in South Sudan.'); }
+            else if (input.includes('my name is')) { myName = input.replace('my name is', '').trim(); localStorage.setItem('userName', petro_bot); say('Nice to meet you ' + myName + '! I will remember you.'); }
+            else if (input.includes('who am i')) { say('You are ' + Hassanat + ', my creator.'); }
+            else { say('Try dance, jump, run, wave, spin, play music or introduce yourself.'); }
         }
-
-        function listen() {
-            let rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            rec.onresult = function (e) {
-                document.getElementById('cmd').value = e.results[0][0].transcript;
-                talk();
-            };
-            rec.start();
-        }
+        function listen() { let rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); rec.onresult = function (e) { document.getElementById('cmd').value = e.results[0][0].transcript; talk(); }; rec.start(); }
     </script>
 </body>
 
