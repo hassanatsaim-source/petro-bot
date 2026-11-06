@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PETRO-BOT</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #0f172a;
+            color: white
+        }
+
+        #stage {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background: #1e293b;
+            border-radius: 20px;
+            margin: 20px
+        }
+
+        #robot {
+            font-size: 120px;
+            position: absolute;
+            left: 45%;
+            top: 80px;
+            transition: all 0.5s
+        }
+
+        .dance {
+            animation: dance 0.5s infinite
+        }
+
+        @keyframes dance {
+            0% {
+                transform: rotate(-20deg)
+            }
+
+            50% {
+                transform: rotate(20deg) translateY(-20px)
+            }
+
+            100% {
+                transform: rotate(-20deg)
+            }
+        }
+
+        .jump {
+            animation: jump 0.8s
+        }
+
+        @keyframes jump {
+            0% {
+                top: 80px
+            }
+
+            50% {
+                top: 0px
+            }
+
+            100% {
+                top: 80px
+            }
+        }
+
+        .run {
+            animation: run 1s infinite
+        }
+
+        @keyframes run {
+            0% {
+                left: 5%
+            }
+
+            50% {
+                left: 80%
+            }
+
+            100% {
+                left: 5%
+            }
+        }
+
+        input {
+            padding: 12px;
+            width: 70%;
+            border-radius: 10px;
+            border: none
+        }
+
+        button {
+            padding: 12px 20px;
+            border-radius: 10px;
+            background: #22c55e;
+            border: none;
+            font-weight: bold;
+            cursor: pointer
+        }
+
+        #chat {
+            background: white;
+            color: black;
+            width: 80%;
+            margin: 10px auto;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: left;
+            height: 150px;
+            overflow-y: auto
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🤖 PETRO-BOT - Live Robot</h1>
+    <p>Try: dance, jump, run, play music, introduce yourself</p>
+
+    <div id="stage">
+        <div id="robot">🤖</div>
+    </div>
+
+    <div id="chat">Hello! I am PETRO-BOT. Type a command below.</div>
+    <br>
+    <input id="cmd" placeholder="Type: dance / jump / run / introduce yourself">
+    <button onclick="talk()">SEND</button>
+    <button onclick="listen()">🎤 SPEAK</button>
+
+    <script>
+        let robot = document.getElementById('robot');
+        let chatBox = document.getElementById('chat');
+        let myName = localStorage.getItem('userName') || 'my friend';
+        let music = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+
+        function say(text) {
+            chatBox.innerHTML += '<br><b>Robot:</b> ' + text;
+            let speech = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(speech);
+        }
+
+        function talk() {
+            let input = document.getElementById('cmd').value.toLowerCase();
+            document.getElementById('cmd').value = '';
+            chatBox.innerHTML += '<br><b>You:</b> ' + input;
+            robot.className = '';
+
+            if (input.includes('dance')) { robot.classList.add('dance'); say('Yes! Let me dance for you!'); }
+            else if (input.includes('jump')) { robot.classList.add('jump'); say('Jumping!'); }
+            else if (input.includes('run')) { robot.classList.add('run'); say('I am running!'); }
+            else if (input.includes('stop music')) { music.pause(); say('Music stopped.'); }
+            else if (input.includes('play music') || input.includes('music')) { music.play(); say('Playing music for you!'); }
+            else if (input.includes('stop')) { robot.className = ''; say('Okay I stopped.'); }
+            else if (input.includes('introduce')) {
+                say('Hello! My name is PETRO-BOT. I was created by Hassanat saim. I am a live robot made with JavaScript. I can dance, jump, run, play music, and remember your details. I was built for the PETRO-STOCK project to help oil companies in South Sudan track production and stock. Nice to meet you!');
+            }
+            else if (input.includes('my name is')) {
+                petro_bot = input.replace('my name is', '').trim();
+                localStorage.setItem('userName', petro_bot);
+                say('Nice to meet you ' + myName + '! I will remember you forever.');
+            }
+            else if (input.includes('who am i')) { say('You are ' + myName + ', my creator and my best friend.'); }
+            else { say('I can dance, jump, run, play music, or introduce myself. Try one!'); }
+        }
+
+        function listen() {
+            let rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            rec.onresult = function (e) {
+                document.getElementById('cmd').value = e.results[0][0].transcript;
+                talk();
+            };
+            rec.start();
+        }
+    </script>
+</body>
+
+</html>
